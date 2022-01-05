@@ -11,20 +11,22 @@ class ARKANOIDMENTORAMA_API APlayerPaddle : public APawn
 {
 	GENERATED_BODY()
 
+public:
+	// Sets default values for this pawn's properties
+	APlayerPaddle();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Speed;
-
-	// Sets default values for this pawn's properties
-	APlayerPaddle();
-
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float Speed;
 };

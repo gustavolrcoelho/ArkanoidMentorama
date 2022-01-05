@@ -13,13 +13,12 @@ UCLASS()
 class ARKANOIDMENTORAMA_API AArkanoidPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+	
+		void SetupInputComponent();
 
-	void SetupInputComponent();
-
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = Input);
 	FName HorizontalInputAxis = TEXT("Horizontal");
-
 public:
-	UFUNCTION(BlueprintCallable)
-	void HandleHorizontalAxis(float Value);
+	UFUNCTION()
+		void HandleHorizontalAxis(float Value);
 };

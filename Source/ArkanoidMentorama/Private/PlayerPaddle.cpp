@@ -28,5 +28,10 @@ void APlayerPaddle::Tick(float DeltaTime)
 	AddActorLocalOffset(MovementInput * Speed * DeltaTime, true);
 }
 
-
+// Called to bind functionality to input
+//void APlayerPaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+//{
+//	Super::SetupPlayerInputComponent(PlayerInputComponent);
+//
+//}
 
