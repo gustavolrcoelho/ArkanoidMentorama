@@ -15,6 +15,15 @@ public:
 	// Sets default values for this actor's properties
 	ABall();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UStaticMeshComponent* Sphere;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FVector LaunchDirection = FVector(1, 0, 1);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float LaunchSpeed = 500;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -22,5 +31,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void Launch();
 
 };
