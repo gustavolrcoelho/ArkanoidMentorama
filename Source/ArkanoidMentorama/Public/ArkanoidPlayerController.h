@@ -10,11 +10,20 @@
 /**
  * 
  */
+
+class Aball;
+
 UCLASS()
 class ARKANOIDMENTORAMA_API AArkanoidPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+public:	
 	void SetupInputComponent();
 
 	UPROPERTY(EditDefaultsOnly, Category = Input);
@@ -23,7 +32,7 @@ class ARKANOIDMENTORAMA_API AArkanoidPlayerController : public APlayerController
 	UPROPERTY(EditDefaultsOnly, Category = Input);
 	FName LaunchInput = TEXT("Launch");
 
-	ABall *HoldingBall;
+	ABall* HoldingBall;
 
 	UPROPERTY(EditAnywhere, Category = "Ball");
 	FVector OffsetSpawnInitialBall = FVector(0, 0, 40);
@@ -31,18 +40,17 @@ class ARKANOIDMENTORAMA_API AArkanoidPlayerController : public APlayerController
 	UPROPERTY(EditAnywhere, Category = "Ball");
 	TSubclassOf<ABall> BallClass;
 
-public:
 	UFUNCTION(BlueprintCallable)
 	void HandleHorizontalAxis(float Value);
 
 	UFUNCTION(BlueprintCallable)
-	void StartInitialStage();
+	void StartInitialState();
 
 	UFUNCTION(BlueprintCallable)
 	void HandleLaunch();
 
 	UFUNCTION(BlueprintCallable)
-	ABall *SpawnBall();
+	ABall* SpawnBall();
 
 	UFUNCTION(BlueprintCallable)
 	void HandleDestroyedBall();

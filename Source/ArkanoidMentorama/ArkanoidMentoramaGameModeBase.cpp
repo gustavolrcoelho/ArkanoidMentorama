@@ -3,3 +3,8 @@
 
 #include "ArkanoidMentoramaGameModeBase.h"
 
+
+void AArkanoidMentoramaGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+}

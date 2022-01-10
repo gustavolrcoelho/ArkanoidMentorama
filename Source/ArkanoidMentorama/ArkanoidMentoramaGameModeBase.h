@@ -13,5 +13,6 @@ UCLASS()
 class ARKANOIDMENTORAMA_API AArkanoidMentoramaGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+protected:
+	virtual void BeginPlay() override;
 };

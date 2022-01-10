@@ -3,12 +3,46 @@
 
 #include "ArkanoidPlayerController.h"
 
+void AArkanoidPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	StartInitialState();
+}
+
+void AArkanoidPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	if (IsValid(HoldingBall))
+	{
+		HoldingBall->SetActorLocation(GetPawn()->GetActorLocation() + OffsetSpawnInitialBall);
+	}
+}
+
 void AArkanoidPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
 	InputComponent->BindAxis(HorizontalInputAxis, this, &AArkanoidPlayerController::HandleHorizontalAxis);
 	InputComponent->BindAction(LaunchInput, IE_Pressed, this, &AArkanoidPlayerController::HandleLaunch);
+}
+
+void AArkanoidPlayerController::StartInitialState()
+{
+	HoldingBall = SpawnBall();
+	
+	if (IsValid(HoldingBall) && IsValid(GetPawn()))
+	{
+		HoldingBall->SetActorLocation(GetPawn()->GetActorLocation() + OffsetSpawnInitialBall);
+	}
+}
+
+ABall* AArkanoidPlayerController::SpawnBall()
+{
+	auto *Ball = GetWorld()->SpawnActor<ABall>(BallClass.Get());
+
+	return Ball;
 }
 
 void AArkanoidPlayerController::HandleHorizontalAxis(float Value)
@@ -18,24 +52,15 @@ void AArkanoidPlayerController::HandleHorizontalAxis(float Value)
 	GetPawn()->AddMovementInput(FVector::ForwardVector, Value);
 }
 
-void AArkanoidPlayerController::StartInitialStage()
+void AArkanoidPlayerController::HandleLaunch() 
 {
-	HoldingBall = SpawnBall();
-	HoldingBall->SetActorLocation(GetPawn()->GetActorLocation() + OffsetSpawnInitialBall);
-}
-
-void AArkanoidPlayerController::HandleLaunch()
-{
-}
-
-ABall* AArkanoidPlayerController::SpawnBall()
-{
-	auto *Ball = GetWorld()->SpawnActor<ABall>(BallClass.Get());
-	
-	//minuto 16:23 da aula 4
+	if (IsValid(HoldingBall))
+	{
+		HoldingBall->Launch();
+		HoldingBall = nullptr;
+	}
 }
 
 void AArkanoidPlayerController::HandleDestroyedBall()
 {
 }
-                            

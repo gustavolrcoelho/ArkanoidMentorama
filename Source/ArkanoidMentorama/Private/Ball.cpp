@@ -8,6 +8,7 @@ ABall::ABall()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 	Sphere = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Sphere"));
 	RootComponent = Sphere;
 }
@@ -16,19 +17,16 @@ ABall::ABall()
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ABall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABall::Launch()
 {
-	Sphere->AddImpulse(LaunchDirection.GetSafeNormal() * LaunchSpeed);
-
+	Sphere->AddImpulse(LaunchDirection.GetSafeNormal() * LaunchSpeed, NAME_None, true);
 }
 

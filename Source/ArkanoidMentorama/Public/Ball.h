@@ -35,4 +35,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Launch();
 
+	void PrintDebug() { 
+		GEngine->AddOnScreenDebugMessage(-1, 30.0f, FColor::Orange, TEXT("PrintDebug from inside Ball"));
+	}
+
 };
