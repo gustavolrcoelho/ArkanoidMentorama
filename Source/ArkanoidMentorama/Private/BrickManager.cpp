@@ -8,7 +8,7 @@ UBrickManager::UBrickManager()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -22,13 +22,46 @@ void UBrickManager::BeginPlay()
 	// ...
 	
 }
+//
+//
+//// Called every frame
+//void UBrickManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+//{
+//	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+//
+//	// ...
+//}
 
-
-// Called every frame
-void UBrickManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UBrickManager::SpawnBricks()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	for (int Colums = 0; Colums < NumCols; Colums++)
+	{
+		for (int Rows = 0; Rows < NumRows; Rows++)
+		{
+			auto* Brick = GetWorld()->SpawnActor<ABrick>(BrickClass.Get());
 
-	// ...
+			if (BrickExtend.IsZero())
+			{
+				FVector Origin;
+
+				//Brick->GetActorBounds(true, Origin, BrickExtend);
+			}
+		}
+
+	}
+
+}
+
+FVector UBrickManager::GetPositionFor(int X, int Z)
+{
+	FVector Position = StartSpawnPosition;
+	
+	Position.X += X * BrickExtend.X * 2;
+	Position.X += X * BrickExtend.X + OffsetBetweenBricks.X;
+
+	Position.Z += Z * BrickExtend.Z * 2;
+	Position.Z += Z * BrickExtend.Z + OffsetBetweenBricks.Z;
+
+	return Position;
 }
 

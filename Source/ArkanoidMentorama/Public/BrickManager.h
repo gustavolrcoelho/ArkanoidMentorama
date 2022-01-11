@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Brick.h"
 #include "Components/ActorComponent.h"
 #include "BrickManager.generated.h"
 
@@ -21,8 +22,29 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+//	// Called every frame
+//	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	virtual void SpawnBricks();
+
+	FVector GetPositionFor(int X, int Z);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Brick");
+	TSubclassOf<ABrick> BrickClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Brick");
+	int NumRows = 4;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Brick");
+	int NumCols = 9;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Brick");
+	FVector BrickExtend;
+
+	UPROPERTY(EditAnywhere, Category = "Brick");
+	FVector StartSpawnPosition;
+
+	UPROPERTY(EditAnywhere, Category = "Brick");
+	FVector OffsetBetweenBricks;
+
 };
