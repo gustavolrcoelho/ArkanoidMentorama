@@ -9,21 +9,14 @@ UBrickManager::UBrickManager()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
-
-	// ...
 }
-
 
 // Called when the game starts
 void UBrickManager::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
-//
-//
+
 //// Called every frame
 //void UBrickManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 //{
@@ -34,33 +27,37 @@ void UBrickManager::BeginPlay()
 
 void UBrickManager::SpawnBricks()
 {
-	for (int Colums = 0; Colums < NumCols; Colums++)
+	for (int Rows = 0; Rows < NumRows; Rows++)
 	{
-		for (int Rows = 0; Rows < NumRows; Rows++)
+		for (int Colums = 0; Colums < NumCols; Colums++)
 		{
 			auto* Brick = GetWorld()->SpawnActor<ABrick>(BrickClass.Get());
 
 			if (BrickExtend.IsZero())
 			{
-				FVector Origin;
+				FVector Origin;// = { 0, 0, 0 };
 
-				//Brick->GetActorBounds(true, Origin, BrickExtend);
+				Brick->GetActorBounds(true, Origin, BrickExtend);
 			}
+			//FVector Debug = GetPositionFor(Rows, Colums);
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("%d %d %d"), Debug.X, Debug.Y, Debug.Z));
+			//Brick->SetActorLocation(Debug);
+			
+			Brick->SetActorLocation(GetPositionFor(Rows, Colums));
 		}
-
 	}
-
 }
 
 FVector UBrickManager::GetPositionFor(int X, int Z)
 {
 	FVector Position = StartSpawnPosition;
-	
-	Position.X += X * BrickExtend.X * 2;
-	Position.X += X * BrickExtend.X + OffsetBetweenBricks.X;
+	//GEngine->AddOnScreenDebugMessage(-1, 30.f, FColor::Orange, FString::Printf(TEXT("called GetPositionFor(%d, %d)"), X, Z));
 
-	Position.Z += Z * BrickExtend.Z * 2;
-	Position.Z += Z * BrickExtend.Z + OffsetBetweenBricks.Z;
+	Position.X += X * BrickExtend.X * 2;
+	Position.X += X * OffsetBetweenBricks.X;
+
+	Position.Z -= Z * BrickExtend.Z * 2;
+	Position.Z -= Z * OffsetBetweenBricks.Z;
 
 	return Position;
 }

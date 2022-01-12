@@ -38,7 +38,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	int NumCols = 9;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Brick");
+	//UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	FVector BrickExtend;
 
 	UPROPERTY(EditAnywhere, Category = "Brick");
