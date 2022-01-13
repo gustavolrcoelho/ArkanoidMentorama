@@ -8,21 +8,18 @@ ABrick::ABrick()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
 }
 
 // Called when the game starts or when spawned
 void ABrick::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ABrick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABrick::NotifyHit( class UPrimitiveComponent* MyComp,
@@ -37,6 +34,8 @@ void ABrick::NotifyHit( class UPrimitiveComponent* MyComp,
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("I'VE BEEN HIT!"));
 
+	OnBrickDestroyed.Broadcast(this);
+
 	FeedbackDestroy();
 
 	if (TimeToFeedBackDestroy > 0)
@@ -47,11 +46,10 @@ void ABrick::NotifyHit( class UPrimitiveComponent* MyComp,
 	{
 		Destroy();
 	}
-
 }
 
-//void ABrick::DestroyFeedback_Implementation()
-//{
-//
-//}
+int ABrick::GetScoreValue() const
+{
+	return 10;
+}
 

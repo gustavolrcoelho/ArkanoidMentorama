@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Brick.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBrickDestroyed, ABrick*, Brick);
+
 UCLASS()
 class ARKANOIDMENTORAMA_API ABrick : public AActor
 {
@@ -23,6 +25,8 @@ public:
 
 	float TimeToFeedBackDestroy;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnBrickDestroyed OnBrickDestroyed;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -39,4 +43,5 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void FeedbackDestroy();
 
+	int GetScoreValue() const;
 };

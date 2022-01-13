@@ -39,10 +39,7 @@ void UBrickManager::SpawnBricks()
 
 				Brick->GetActorBounds(true, Origin, BrickExtend);
 			}
-			//FVector Debug = GetPositionFor(Rows, Colums);
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("%d %d %d"), Debug.X, Debug.Y, Debug.Z));
-			//Brick->SetActorLocation(Debug);
-			
+
 			Brick->SetActorLocation(GetPositionFor(Rows, Colums));
 		}
 	}

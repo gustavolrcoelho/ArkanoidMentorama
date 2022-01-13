@@ -23,10 +23,32 @@ void ABall::BeginPlay()
 void ABall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	FVector Velocity = GetVelocity();
+
+	if (CurrentSpeed >= 0) return;
+	if (Velocity.IsNearlyZero()) return;
+
+	if (FMath::IsNearlyZero(Velocity.X, Tolerance))
+	{
+		Velocity.X += Tolerance * FMath::RandBool() ? 1 : -1;
+	}
+		
+	if (FMath::IsNearlyZero(Velocity.Z, Tolerance))
+	{
+		Velocity.Z += Tolerance * FMath::RandBool() ? 1 : -1;
+	}
+
+	Velocity.Normalize();
+	Velocity *= CurrentSpeed;
+
+	Sphere->SetPhysicsLinearVelocity(Velocity, false, NAME_None);
+
 }
 
 void ABall::Launch()
 {
 	Sphere->AddImpulse(LaunchDirection.GetSafeNormal() * LaunchSpeed, NAME_None, true);
+	CurrentSpeed = LaunchSpeed;
 }
 

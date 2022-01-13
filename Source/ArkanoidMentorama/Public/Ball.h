@@ -24,6 +24,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float LaunchSpeed = 500;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float CurrentSpeed;
+
+	const float Tolerance = 0.1f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
