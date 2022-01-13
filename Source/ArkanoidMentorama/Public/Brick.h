@@ -19,8 +19,24 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
+
+	float TimeToFeedBackDestroy;
+
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void NotifyHit( class UPrimitiveComponent* MyComp,
+							AActor* Other,
+							class UPrimitiveComponent* OtherComp,
+							bool bSelfMoved,
+							FVector HitLocation,
+							FVector HitNormal,
+							FVector NormalImpulse,
+							const FHitResult& Hit) override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void FeedbackDestroy();
 
 };
