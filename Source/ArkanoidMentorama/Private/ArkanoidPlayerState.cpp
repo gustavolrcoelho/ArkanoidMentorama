@@ -3,3 +3,9 @@
 
 #include "ArkanoidPlayerState.h"
 
+void AArkanoidPlayerState::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Life = IntialLife;
+}

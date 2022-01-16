@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Brick.h"
+#include "ArkanoidPlayerState.h"
 #include "Components/ActorComponent.h"
 #include "BrickManager.generated.h"
 
@@ -22,12 +23,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-//	// Called every frame
-//	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	virtual void SpawnBricks();
-
-	FVector GetPositionFor(int X, int Z);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	TSubclassOf<ABrick> BrickClass;
@@ -38,7 +33,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	int NumCols = 9;
 
-	//UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	FVector BrickExtend;
 
 	UPROPERTY(EditAnywhere, Category = "Brick");
@@ -47,4 +41,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Brick");
 	FVector OffsetBetweenBricks;
 
+	//	// Called every frame
+	//	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	virtual void SpawnBricks();
+
+	FVector GetPositionFor(int X, int Z);
+
+	UFUNCTION(BlueprintCallable)
+	void HandleBrickDestroyed(ABrick *DestroyedBrick);
 };

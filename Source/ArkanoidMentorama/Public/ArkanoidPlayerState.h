@@ -12,6 +12,18 @@
 UCLASS()
 class ARKANOIDMENTORAMA_API AArkanoidPlayerState : public APlayerState
 {
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+public:
 	GENERATED_BODY()
-	
+
+	UPROPERTY(BlueprintReadOnly)
+	int Life;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	int IntialLife = 3;
+
+
 };
