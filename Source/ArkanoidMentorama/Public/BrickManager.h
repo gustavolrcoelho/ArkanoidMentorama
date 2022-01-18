@@ -8,6 +8,7 @@
 #include "Components/ActorComponent.h"
 #include "BrickManager.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAllBricksDestroyed);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ARKANOIDMENTORAMA_API UBrickManager : public UActorComponent
@@ -23,9 +24,14 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UPROPERTY(BlueprintAssignable)
+	FOnAllBricksDestroyed OnAllBricksDestroyed;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	TSubclassOf<ABrick> BrickClass;
+
+	UPROPERTY()
+	TArray<ABrick *> Bricks;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Brick");
 	int NumRows = 4;
@@ -49,5 +55,8 @@ public:
 	FVector GetPositionFor(int X, int Z);
 
 	UFUNCTION(BlueprintCallable)
-	void HandleBrickDestroyed(ABrick *DestroyedBrick);
+	void HandleBrickDestroyed(ABrick* DestroyedBrick);
+ 
+	UFUNCTION(BlueprintCallable)
+	void ApplyScore(ABrick* DestroyedBrick);
 };

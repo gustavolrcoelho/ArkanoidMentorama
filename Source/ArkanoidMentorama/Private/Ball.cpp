@@ -43,7 +43,6 @@ void ABall::Tick(float DeltaTime)
 	Velocity *= CurrentSpeed;
 
 	Sphere->SetPhysicsLinearVelocity(Velocity, false, NAME_None);
-
 }
 
 void ABall::Launch()
@@ -52,3 +51,8 @@ void ABall::Launch()
 	CurrentSpeed = LaunchSpeed;
 }
 
+void ABall::Kill()
+{
+	OnBallDestroyed.Broadcast(this);
+	Destroy();
+}

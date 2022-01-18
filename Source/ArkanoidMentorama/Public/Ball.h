@@ -6,14 +6,19 @@
 #include "GameFramework/Actor.h"
 #include "Ball.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBallDestroyed, class ABall*, Ball);
+
 UCLASS()
 class ARKANOIDMENTORAMA_API ABall : public AActor
 {
 	GENERATED_BODY()
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 	
 public:	
-	// Sets default values for this actor's properties
-	ABall();
+	FOnBallDestroyed OnBallDestroyed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UStaticMeshComponent* Sphere;
@@ -28,20 +33,15 @@ public:
 	float CurrentSpeed;
 
 	const float Tolerance = 0.1f;
+	
+	// Sets default values for this actor's properties
+	ABall();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable)
+	//UFUNCTION(BlueprintCallable)
 	void Launch();
 
-	void PrintDebug() { 
-		GEngine->AddOnScreenDebugMessage(-1, 30.0f, FColor::Orange, TEXT("PrintDebug from inside Ball"));
-	}
-
+	void Kill();
 };

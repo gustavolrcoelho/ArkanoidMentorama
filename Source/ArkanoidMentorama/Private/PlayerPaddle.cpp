@@ -8,14 +8,12 @@ APlayerPaddle::APlayerPaddle()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
 void APlayerPaddle::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -28,10 +26,9 @@ void APlayerPaddle::Tick(float DeltaTime)
 	AddActorLocalOffset(MovementInput * Speed * DeltaTime, true);
 }
 
-// Called to bind functionality to input
-//void APlayerPaddle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-//{
-//	Super::SetupPlayerInputComponent(PlayerInputComponent);
-//
-//}
+void APlayerPaddle::UnPossessed()
+{
+	Super::UnPossessed();
 
+	SetLifeSpan(TimeAfterUnpossesses);
+}

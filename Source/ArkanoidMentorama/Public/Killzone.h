@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Ball.h"
 #include "GameFramework/Actor.h"
 #include "Killzone.generated.h"
 
@@ -22,5 +23,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };

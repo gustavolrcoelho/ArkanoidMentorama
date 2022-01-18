@@ -7,9 +7,7 @@
 #include "Ball.h"
 #include "ArkanoidPlayerController.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAllBallsDestroyed);
 
 class Aball;
 
@@ -18,13 +16,20 @@ class ARKANOIDMENTORAMA_API AArkanoidPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+	UPROPERTY()
+	ABall* HoldingBall;
+
 protected:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
 
+	TArray<ABall*> Balls;
+
 public:	
 	void SetupInputComponent();
+
+	FOnAllBallsDestroyed OnAllBallsDestroyed;
 
 	UPROPERTY(EditDefaultsOnly, Category = Input);
 	FName HorizontalInputAxis = TEXT("Horizontal");
@@ -32,26 +37,23 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Input);
 	FName LaunchInput = TEXT("Launch");
 
-	ABall* HoldingBall;
-
 	UPROPERTY(EditAnywhere, Category = "Ball");
 	FVector OffsetSpawnInitialBall = FVector(0, 0, 40);
 	
 	UPROPERTY(EditAnywhere, Category = "Ball");
 	TSubclassOf<ABall> BallClass;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void HandleHorizontalAxis(float Value);
 
-	UFUNCTION(BlueprintCallable)
 	void StartInitialState();
 
-	UFUNCTION(BlueprintCallable)
 	void HandleLaunch();
 
-	UFUNCTION(BlueprintCallable)
 	ABall* SpawnBall();
 
-	UFUNCTION(BlueprintCallable)
-	void HandleDestroyedBall();
+	UFUNCTION()
+	void OnBallDestroyed(ABall* Ball);
+
+	void DestroyAllBalls();
 };

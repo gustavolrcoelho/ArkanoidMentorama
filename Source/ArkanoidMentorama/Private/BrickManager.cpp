@@ -35,13 +35,14 @@ void UBrickManager::SpawnBricks()
 
 			if (BrickExtend.IsZero())
 			{
-				FVector Origin;// = { 0, 0, 0 };
+				FVector Origin;
 
 				Brick->GetActorBounds(true, Origin, BrickExtend);
 			}
 
 			Brick->OnBrickDestroyed.AddDynamic(this, &UBrickManager::HandleBrickDestroyed);
-			Brick->SetActorLocation(GetPositionFor(Rows, Colums));
+			Brick->SetActorLocation(GetPositionFor(Colums, Rows));
+			Bricks.Add(Brick);
 		}
 	}
 }
@@ -62,16 +63,24 @@ FVector UBrickManager::GetPositionFor(int X, int Z)
 
 void UBrickManager::HandleBrickDestroyed(ABrick* DestroyedBrick)
 {
+	ApplyScore(DestroyedBrick); 
+
+	Bricks.Remove(DestroyedBrick);
+
+	if (Bricks.Num() <= 0)
+	{
+		OnAllBricksDestroyed.Broadcast();
+	}
+}
+
+void UBrickManager::ApplyScore(ABrick* DestroyedBrick)
+{
 	auto* PlayerController = GetWorld()->GetFirstPlayerController();
 
 	if (!IsValid(PlayerController)) return;
-	{
-		auto* PlayerState = PlayerController->PlayerState;
+	auto* PlayerState = PlayerController->PlayerState;
 
-		if (!IsValid(PlayerState)) return;
-		{
-			PlayerState->Score += DestroyedBrick->GetScoreValue();
-		}
-	}
+	if (!IsValid(PlayerState)) return;
+	PlayerState->Score += DestroyedBrick->GetScoreValue();
 }
 

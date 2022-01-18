@@ -15,13 +15,22 @@ AKillzone::AKillzone()
 void AKillzone::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AKillzone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
+void AKillzone::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	auto* Ball = Cast<ABall>(OtherActor);
+	
+	if (IsValid(Ball))
+	{
+		Ball->Kill();
+	}
+}

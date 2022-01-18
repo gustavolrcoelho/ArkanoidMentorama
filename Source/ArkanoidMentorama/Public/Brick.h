@@ -23,7 +23,7 @@ protected:
 
 public:
 
-	float TimeToFeedBackDestroy;
+	float TimeToFeedBackDestroy = 0;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnBrickDestroyed OnBrickDestroyed;

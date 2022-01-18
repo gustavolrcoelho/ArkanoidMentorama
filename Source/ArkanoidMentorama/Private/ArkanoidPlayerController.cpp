@@ -7,14 +7,14 @@ void AArkanoidPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	StartInitialState();
+	//StartInitialState();
 }
 
 void AArkanoidPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	if (IsValid(HoldingBall))
+	if (IsValid(HoldingBall) && IsValid(GetPawn()))
 	{
 		HoldingBall->SetActorLocation(GetPawn()->GetActorLocation() + OffsetSpawnInitialBall);
 	}
@@ -31,18 +31,17 @@ void AArkanoidPlayerController::SetupInputComponent()
 void AArkanoidPlayerController::StartInitialState()
 {
 	HoldingBall = SpawnBall();
-	
+
 	if (IsValid(HoldingBall) && IsValid(GetPawn()))
 	{
 		HoldingBall->SetActorLocation(GetPawn()->GetActorLocation() + OffsetSpawnInitialBall);
 	}
-}
-
-ABall* AArkanoidPlayerController::SpawnBall()
-{
-	auto *Ball = GetWorld()->SpawnActor<ABall>(BallClass.Get());
-
-	return Ball;
+	else
+	{
+		FVector Offset( 0.f, -300.f, 0.f );
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("Offset Y is %f"), Offset.Y));
+		HoldingBall->SetActorLocation(Offset);
+	}
 }
 
 void AArkanoidPlayerController::HandleHorizontalAxis(float Value)
@@ -61,6 +60,31 @@ void AArkanoidPlayerController::HandleLaunch()
 	}
 }
 
-void AArkanoidPlayerController::HandleDestroyedBall()
+ABall* AArkanoidPlayerController::SpawnBall()
 {
+	auto* Ball = GetWorld()->SpawnActor<ABall>(BallClass.Get());
+	
+	Balls.Add(Ball);
+	Ball->OnBallDestroyed.AddDynamic(this, &AArkanoidPlayerController::OnBallDestroyed);
+
+	return Ball;
+}
+
+void AArkanoidPlayerController::OnBallDestroyed(ABall* Ball)
+{
+	Balls.Remove(Ball);
+	if (Balls.Num() <= 0)
+	{
+		UnPossess();
+		OnAllBallsDestroyed.Broadcast();
+	}
+}
+
+void AArkanoidPlayerController::DestroyAllBalls()
+{
+	for (auto* Ball : Balls)
+	{
+		Ball->Destroy();
+	}
+	Balls.Reset();
 }

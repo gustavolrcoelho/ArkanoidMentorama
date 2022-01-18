@@ -24,6 +24,4 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	int IntialLife = 3;
-
-
 };
